@@ -16,8 +16,8 @@ import java.time.LocalDateTime
 )
 class Task {
     @Id
-    @GeneratedValue(generator = "task_sequence", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "task_sequence", sequenceName = "task_sequence", allocationSize = 1)
+    @GeneratedValue(generator = "task_sequence_generator", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "task_sequence_generator", sequenceName = "task_sequence", allocationSize = 1)
     val id: Long = 0
 
     @NotBlank

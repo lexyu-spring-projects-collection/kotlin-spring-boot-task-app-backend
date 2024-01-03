@@ -1,0 +1,26 @@
+server:
+  port: 9000
+  error:
+    include-binding-errors: always
+    include-message: always
+    include-stacktrace: always
+
+spring:
+  main:
+    web-application-type: servlet
+
+  datasource:
+    username: postgres
+    password: P@ssw0rd
+    url: jdbc:postgresql://localhost:5432/postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: postgresql
+
+logging:
+  level:
+    org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR

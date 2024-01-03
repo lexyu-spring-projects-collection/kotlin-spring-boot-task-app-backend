@@ -20,13 +20,14 @@ interface TaskRepository : JpaRepository<Task, Long> {
     fun queryAllByClosedTask(): List<Task>
 
     @Query(value = """
-        SELECT
+        SELECT 
             CASE 
-                WHEN COUNT(t) > 0
-                THEN TRUE ELSE FALSE 
-            END 
-        FROM tasks AS t 
-        WHERE t.description = ?1 
-         """, nativeQuery = true)
+                WHEN COUNT(t.id) > 0 
+                    THEN TRUE 
+                    ELSE FALSE
+             END 
+         FROM tasks AS t 
+         WHERE t.description = ?1"""
+        , nativeQuery = true)
     fun isDescriptionExist(description: String): Boolean
 }

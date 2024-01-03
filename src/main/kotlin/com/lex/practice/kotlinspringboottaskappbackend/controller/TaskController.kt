@@ -1,5 +1,6 @@
 package com.lex.practice.kotlinspringboottaskappbackend.controller
 
+import com.lex.practice.kotlinspringboottaskappbackend.exception.TaskNotFoundException
 import com.lex.practice.kotlinspringboottaskappbackend.model.TaskCreateRequest
 import com.lex.practice.kotlinspringboottaskappbackend.model.TaskDTO
 import com.lex.practice.kotlinspringboottaskappbackend.model.TaskUpdateRequest
@@ -36,8 +37,23 @@ class TaskController(private val taskService: TaskService) {
         ResponseEntity(taskService.getClosedTasks(), HttpStatus.OK)
 
     @GetMapping("/{id}")
-    fun getTaskById(@PathVariable(name = "id") id: Long): ResponseEntity<TaskDTO> =
+    fun getTaskById(@PathVariable(name = "id") id: Long): ResponseEntity<Any> = try {
         ResponseEntity(taskService.getTaskById(id), HttpStatus.OK)
+    } catch (ex: TaskNotFoundException) {
+        val errMap = mapOf("status" to HttpStatus.NOT_FOUND.value(), "message" to ex.message)
+        ResponseEntity.status(HttpStatus.NOT_FOUND).body(errMap)
+    }
+    /* out Any
+        = runCatching {
+            ResponseEntity(taskService.getTaskById(id), HttpStatus.OK)
+        }.getOrElse { ex ->
+            when (ex) {
+                is TaskNotFoundException -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(mapOf("status" to HttpStatus.NOT_FOUND.value(), "message" to ex.message))
+                else -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error")
+            }
+        }
+     */
 
     @PostMapping("/create")
     fun createTask(@Valid @RequestBody request: TaskCreateRequest): ResponseEntity<TaskDTO> =
