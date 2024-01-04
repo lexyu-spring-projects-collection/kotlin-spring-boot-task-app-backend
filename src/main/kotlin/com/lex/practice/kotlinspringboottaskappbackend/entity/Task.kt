@@ -36,4 +36,10 @@ class Task {
     @NotNull
     @Enumerated(EnumType.STRING)
     var priority: Priority = Priority.LOW
+    override fun toString(): String {
+        return "Task(id=$id, description='$description', isReminderSet=$isReminderSet, isTaskOpen=$isTaskOpen," +
+                " createdOn=$createdOn, priority=$priority)"
+    }
+
+
 }

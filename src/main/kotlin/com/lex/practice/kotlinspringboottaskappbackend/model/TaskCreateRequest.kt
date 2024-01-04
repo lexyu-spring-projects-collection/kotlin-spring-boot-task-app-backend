@@ -15,5 +15,7 @@ data class TaskCreateRequest(
 
     val isTaskOpen: Boolean,
 
+    val createdOn: LocalDateTime,
+
     val priority: Priority
 )
